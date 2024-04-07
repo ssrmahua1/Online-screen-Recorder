@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Screen Recorder (4k) - Free Developed by Sahil</title>
+    <style>
+        body {
+            background-color: #fff;
+            color: #000;
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        #videoElement {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+            border: 2px solid #00FF00;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #00FF00;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        label, select {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #00FF00;
+        }
+
+        button {
+            font-size: 18px;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #00FF00;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #33FF33;
+        }
+
+        button:disabled {
+            background-color: #888;
+            cursor: not-allowed;
+        }
+
+        #otherToolsLink {
+            font-size: 16px;
+            color: #FF0000;
+            text-decoration: none;
+            margin-top: 50px;
+            display: block;
+        }
+
+        #otherToolsLink:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Online Screen Recorder (4k) - Free Developed by Sahil</h1>
+    <p>This online screen recorder allows you to capture your screen in stunning 4k resolution.</p>
+    <p>Choose your desired video quality and whether to include audio or not.</p>
+    <p>Start recording with just a click!</p>
+    <video id="videoElement" autoplay></video>
+    <label for="qualitySelect">Select Video Quality:</label>
+    <select id="qualitySelect">
+        <option value="360">360p</option>
+        <option value="480">480p</option>
+        <option value="720" selected>720p</option>
+        <option value="1080">1080p</option>
+        <option value="4k">4k</option>
+    </select>
+    <label for="soundSelect">Select Sound:</label>
+    <select id="soundSelect">
+        <option value="withSound" selected>With Sound</option>
+        <option value="withoutSound">Without Sound</option>
+    </select>
+    <button id="startButton">Start Recording</button>
+    <button id="stopButton" disabled>Stop Recording and Download</button>
+    
+    <a href="https://ssrmahua2.github.io/My-Projects/" id="otherToolsLink">Other Tools</a>
+
+    <script>
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const videoElement = document.getElementById('videoElement');
+        const qualitySelect = document.getElementById('qualitySelect');
+        const soundSelect = document.getElementById('soundSelect');
+
+        startButton.addEventListener('click', async () => {
+            const stream = await navigator.mediaDevices.getDisplayMedia({
+                video: { mediaSource: 'screen' },
+                audio: soundSelect.value === 'withSound'
+            });
+            videoElement.srcObject = stream;
+            mediaRecorder = new MediaRecorder(stream);
+
+            mediaRecorder.ondataavailable = function(event) {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
+            };
+
+            mediaRecorder.onstop = function() {
+                const blob = new Blob(recordedChunks, { type: 'video/mp4' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                document.body.appendChild(a);
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'screen-recording.mp4';
+                a.click();
+                window.URL.revokeObjectURL(url);
+                recordedChunks = [];
+            };
+
+            mediaRecorder.start();
+            startButton.disabled = true;
+            stopButton.disabled = false;
+        });
+
+        stopButton.addEventListener('click', () => {
+            mediaRecorder.stop();
+            startButton.disabled = false;
+            stopButton.disabled = true;
+        });
+    </script>
+</body>
+</html>
