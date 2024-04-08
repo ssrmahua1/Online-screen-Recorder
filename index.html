@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Screen Recorder (4k) - Free Developed by Sahil</title>
+    <title>Online Screen Recorder (16k-240fps) </title>
     <style>
         body {
             background-color: #fff;
@@ -25,6 +25,11 @@
 
         h1 {
             font-size: 36px;
+            margin-bottom: 20px;
+            color: #FF0000;
+        }
+      h2 {
+            font-size: 28px;
             margin-bottom: 20px;
             color: #FF0000;
         }
@@ -94,11 +99,12 @@
 </head>
 <body>
     <div id="warningPopup">
-        <p>This page is not compatible with mobile devices. Please open it on a desktop to use the screen recorder.</p>
+        <p id="warningMessage"></p>
+        <button id="closeWarning">Close</button>
     </div>
     
-    <h1>Online Screen Recorder (4k) - Free Developed by Sahil</h1>
-    <h2> ||NO NEED TO INSTALL||</h2>
+    <h1>Online Screen Recorder (16k-240fps) Free</h1> <h2><u> -Developed by Sahil</u></h2>
+    <h3> ||NO NEED TO INSTALL||</h3>
     <p>This online screen recorder allows you to capture your screen in stunning 4k resolution.</p> 
     <p>Choose your desired video quality and whether to include audio or not.</p>
     <p>Start recording with just a click!</p>
@@ -110,6 +116,8 @@
         <option value="720" selected>720p</option>
         <option value="1080">1080p</option>
         <option value="4k">4k</option>
+        <option value="8k">8k(120fps)</option>
+        <option value="16k">16k(240fps)</option>
     </select>
     <label for="soundSelect">Select Sound:</label>
     <select id="soundSelect">
@@ -131,8 +139,19 @@
         const qualitySelect = document.getElementById('qualitySelect');
         const soundSelect = document.getElementById('soundSelect');
         const warningPopup = document.getElementById('warningPopup');
+        const closeWarning = document.getElementById('closeWarning');
+        const warningMessage = document.getElementById('warningMessage');
 
         startButton.addEventListener('click', async () => {
+            if (qualitySelect.value === '8k' || qualitySelect.value === '16k') {
+                if (qualitySelect.value === '8k') {
+                    showWarning('Your PC does not support 8k-120fps resolution.Please upgrade your system to use 8k resolution');
+                } else {
+                    showWarning('Your PC does not support 16k-240fps resolution.Please upgrade your system to use 16k resolution');
+                }
+                return;
+            }
+
             const stream = await navigator.mediaDevices.getDisplayMedia({
                 video: { mediaSource: 'screen' },
                 audio: soundSelect.value === 'withSound'
@@ -170,12 +189,27 @@
             stopButton.disabled = true;
         });
 
+        closeWarning.addEventListener('click', () => {
+            hideWarning();
+        });
+
         window.onload = function() {
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             if (isMobile) {
                 warningPopup.style.display = 'block';
             }
         };
+
+        function showWarning(message) {
+            warningMessage.textContent = message;
+            warningPopup.style.display = 'block';
+            startButton.disabled = true;
+        }
+
+        function hideWarning() {
+            warningPopup.style.display = 'none';
+            startButton.disabled = false;
+        }
     </script>
 </body>
 </html>
