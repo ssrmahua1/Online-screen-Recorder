@@ -28,7 +28,7 @@
             margin-bottom: 20px;
             color: #FF0000;
         }
-      h2 {
+        h2 {
             font-size: 28px;
             margin-bottom: 20px;
             color: #FF0000;
@@ -99,13 +99,14 @@
 </head>
 <body>
     <div id="warningPopup">
-        <p id="warningMessage"></p>
+        <p id="warningMessage">This page is not compatible with mobile devices. Please open it on a desktop to use the screen recorder</p>
         <button id="closeWarning">Close</button>
     </div>
     
-    <h1>Online Screen Recorder (16k-240fps) Free</h1> <h2><u> -Developed by Sahil</u></h2>
+    <h1>Online Screen Recorder (16k-240fps) Free</h1> 
+    <h2><u> -Developed by Sahil</u></h2>
     <h3> ||NO NEED TO INSTALL||</h3>
-    <p>This online screen recorder allows you to capture your screen in stunning 4k resolution.</p> 
+    <p>This online screen recorder allows you to capture your screen in stunning 16k resolution.</p> 
     <p>Choose your desired video quality and whether to include audio or not.</p>
     <p>Start recording with just a click!</p>
     <video id="videoElement" autoplay></video>
@@ -128,7 +129,8 @@
     <button id="stopButton" disabled>Stop Recording and Download</button>
     <p>After clicking Start Recording, Then click Entire screen to record.</p> 
     <h3><u><b><a href="https://ssrmahua2.github.io/My-Projects/" id="otherToolsLink" target="_blank">Other Tools</a></u></b></h3>
-<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7183207232593932289" height="385" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+    <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7183207232593932289" height="385" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+
     <script>
         let mediaRecorder;
         let recordedChunks = [];
@@ -145,9 +147,9 @@
         startButton.addEventListener('click', async () => {
             if (qualitySelect.value === '8k' || qualitySelect.value === '16k') {
                 if (qualitySelect.value === '8k') {
-                    showWarning('Your PC does not support 8k-120fps resolution.Please upgrade your system to use 8k resolution');
+                    showWarning('Your PC does not support 8k-120fps resolution. Please upgrade your system to use 8k resolution');
                 } else {
-                    showWarning('Your PC does not support 16k-240fps resolution.Please upgrade your system to use 16k resolution');
+                    showWarning('Your PC does not support 16k-240fps resolution. Please upgrade your system to use 16k resolution');
                 }
                 return;
             }
@@ -210,6 +212,15 @@
             warningPopup.style.display = 'none';
             startButton.disabled = false;
         }
+
+        // Disable closing of the mobile popup
+        window.addEventListener('beforeunload', function(e) {
+            if (warningPopup.style.display === 'block') {
+                var confirmationMessage = 'Are you sure you want to leave this page?';
+                (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+                return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+            }
+        });
     </script>
 </body>
 </html>
