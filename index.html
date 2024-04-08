@@ -71,6 +71,10 @@
         #otherToolsLink:hover {
             text-decoration: underline;
         }
+
+        #warningMessage {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -95,9 +99,9 @@
     </select>
     <button id="startButton">Start Recording</button>
     <button id="stopButton" disabled>Stop Recording and Download</button>
-      <p>After clicking Start Recording, Then click Entire screen to record.</p> 
-    
-   <h3><u><b><a href="https://ssrmahua2.github.io/My-Projects/" id="otherToolsLink" target="_blank">Other Tools</a></u></b></h3>
+    <p>After clicking Start Recording, Then click Entire screen to record.</p> 
+    <h3><u><b><a href="https://ssrmahua2.github.io/My-Projects/" id="otherToolsLink" target="_blank">Other Tools</a></u></b></h3>
+    <p id="warningMessage">This page is not compatible with mobile devices. Please open it on a desktop to use the screen recorder.</p>
 
     <script>
         let mediaRecorder;
@@ -146,6 +150,14 @@
             startButton.disabled = false;
             stopButton.disabled = true;
         });
+
+        window.onload = function() {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (isMobile) {
+                document.getElementById('warningMessage').style.display = 'block';
+                document.body.innerHTML = ''; // Remove all content
+            }
+        };
     </script>
 </body>
 </html>
