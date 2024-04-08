@@ -72,14 +72,31 @@
             text-decoration: underline;
         }
 
-        #warningMessage {
-            color: #FF0000;
+        #warningPopup {
             display: none;
-            margin-bottom: 20px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 0, 0, 0.8);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 9999;
+        }
+
+        @media only screen and (max-width: 768px) {
+            #warningPopup {
+                display: block;
+            }
         }
     </style>
 </head>
 <body>
+    <div id="warningPopup">
+        <p>This page is not compatible with mobile devices. Please open it on a desktop to use the screen recorder.</p>
+    </div>
+    
     <h1>Online Screen Recorder (4k) - Free Developed by Sahil</h1>
     <h2> ||NO NEED TO INSTALL||</h2>
     <p>This online screen recorder allows you to capture your screen in stunning 4k resolution.</p> 
@@ -103,7 +120,6 @@
     <button id="stopButton" disabled>Stop Recording and Download</button>
     <p>After clicking Start Recording, Then click Entire screen to record.</p> 
     <h3><u><b><a href="https://ssrmahua2.github.io/My-Projects/" id="otherToolsLink" target="_blank">Other Tools</a></u></b></h3>
-    <p id="warningMessage">This page is not compatible with mobile devices. Please open it on a desktop to use the screen recorder.</p>
 
     <script>
         let mediaRecorder;
@@ -114,6 +130,7 @@
         const videoElement = document.getElementById('videoElement');
         const qualitySelect = document.getElementById('qualitySelect');
         const soundSelect = document.getElementById('soundSelect');
+        const warningPopup = document.getElementById('warningPopup');
 
         startButton.addEventListener('click', async () => {
             const stream = await navigator.mediaDevices.getDisplayMedia({
@@ -156,7 +173,7 @@
         window.onload = function() {
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             if (isMobile) {
-                document.getElementById('warningMessage').style.display = 'block';
+                warningPopup.style.display = 'block';
             }
         };
     </script>
