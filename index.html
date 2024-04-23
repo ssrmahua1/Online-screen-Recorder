@@ -209,7 +209,11 @@ function showWarning(message) {
     const deviceMemory = navigator.deviceMemory || 'Unknown'; // RAM size
 
     // Detecting the operating system with versions
-    if (/Windows NT 10/.test(userAgent)) {
+    if (/Windows NT 12/.test(userAgent)) {
+        systemInfo = 'Windows 12';
+    } else if (/Windows NT 11/.test(userAgent)) {
+        systemInfo = 'Windows11';
+    } else if (/Windows NT 10/.test(userAgent)) {
         systemInfo = 'Windows 10';
     } else if (/Windows NT 6\.3/.test(userAgent)) {
         systemInfo = 'Windows 8.1';
