@@ -129,6 +129,7 @@
     <button id="stopButton" disabled>Stop Recording and Download</button>
     <p>After clicking Start Recording, Then click Entire screen to record.</p> 
     <h3><u><b><a href="https://ssrmahua2.github.io/My-Projects/" id="otherToolsLink" target="_blank">Other Tools</a></u></b></h3>
+    <hr>
     <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7183207232593932289" height="385" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
 
     <script>
@@ -147,9 +148,9 @@
         startButton.addEventListener('click', async () => {
             if (qualitySelect.value === '8k' || qualitySelect.value === '16k') {
                 if (qualitySelect.value === '8k') {
-                    showWarning('Your PC does not support 8k-120fps resolution. Please upgrade your system to use 8k resolution');
+                    showWarning('Your System does not support 8k-120fps resolution. Please upgrade your system to use 8k resolution');
                 } else {
-                    showWarning('Your PC does not support 16k-240fps resolution. Please upgrade your system to use 16k resolution');
+                    showWarning('Your System does not support 16k-240fps resolution. Please upgrade your system to use 16k resolution');
                 }
                 return;
             }
@@ -202,26 +203,11 @@
             }
         };
 
-function showWarning(message) {
-    let systemInfo = '';
-    const userAgent = navigator.userAgent;
-    const platform = navigator.platform;
-    const deviceMemory = navigator.deviceMemory || 'Unknown'; // RAM size
-
- 
-
-    // Detecting bit version
-    const is64Bit = platform.includes('64');
-    const bitVersion = is64Bit ? '64-bit' : '32-bit';
-
-    // Appending system info to the message
-    message += ` Your system: ${systemInfo}, Bit version: ${bitVersion}, RAM: ${deviceMemory}GB.`;
-
-    warningMessage.textContent = message;
-    warningPopup.style.display = 'block';
-    startButton.disabled = true;
-}
-
+        function showWarning(message) {
+            warningMessage.textContent = message;
+            warningPopup.style.display = 'block';
+            startButton.disabled = true;
+        }
 
         function hideWarning() {
             warningPopup.style.display = 'none';
